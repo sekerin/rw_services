@@ -1,0 +1,10 @@
+{
+  "compilerOptions": {
+    "esModuleInterop": true,
+    "strict": true,
+    "target": "es6",
+    "module": "CommonJS",
+    "moduleResolution": "Node",
+    "types": ["node","jest"]
+  }
+}
