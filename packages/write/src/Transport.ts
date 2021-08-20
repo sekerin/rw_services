@@ -1,6 +1,6 @@
 import nats, { Stan } from 'node-nats-streaming';
 
-export default class Connect {
+export default class Transport {
   private conn: Stan | undefined;
 
   constructor(

@@ -1,4 +1,4 @@
-import Connect from './Connect';
+import Transport from './Transport';
 import StreamFactory from './StreamFactory';
 import SystemSignals from './SystemSignals';
 
@@ -14,13 +14,13 @@ async function main() {
     path: process.env.TARGET_PATH || '',
   };
 
-  const conn = new Connect(
+  const transport = new Transport(
     transportConfig.clusterId,
     transportConfig.clientId,
     transportConfig.url,
   );
 
-  await conn.connect();
+  await transport.connect();
 
   const wsf = StreamFactory.makeStream(targetConfig.path);
 
@@ -28,11 +28,11 @@ async function main() {
     wsf.write(message);
   };
 
-  conn.subscribe(transportConfig.subject, processData);
+  transport.subscribe(transportConfig.subject, processData);
 
   const handler = () => {
     wsf.close();
-    conn.close();
+    transport.close();
   };
 
   new SystemSignals(handler);
