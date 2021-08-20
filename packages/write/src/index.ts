@@ -3,17 +3,32 @@ import StreamFactory from './StreamFactory';
 import SystemSignals from './SystemSignals';
 
 async function main() {
-  const conn = new Connect('test-cluster', 'write');
+  const transportConfig = {
+    clusterId: process.env.CLUSTER_ID || '',
+    clientId: process.env.CLIENT_ID || '',
+    subject: process.env.SUBJECT || 'default',
+    url: process.env.URL,
+  };
+
+  const targetConfig = {
+    path: process.env.TARGET_PATH || '',
+  };
+
+  const conn = new Connect(
+    transportConfig.clusterId,
+    transportConfig.clientId,
+    transportConfig.url,
+  );
 
   await conn.connect();
 
-  const wsf = StreamFactory.makeStream('./asd2.txt');
+  const wsf = StreamFactory.makeStream(targetConfig.path);
 
-  const processData = (message: string) => {
+  const processData = (message: any) => {
     wsf.write(message);
   };
 
-  conn.subscribe('lol', processData);
+  conn.subscribe(transportConfig.subject, processData);
 
   const handler = () => {
     wsf.close();

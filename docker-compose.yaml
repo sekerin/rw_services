@@ -9,11 +9,20 @@ services:
   read:
     image: node
     volumes:
-    - ./:/app
+      - ./:/app
     working_dir: /app/packages/read
     entrypoint: yarn run run
     depends_on:
       - nats
+      - write
+    environment:
+      - CLUSTER_ID=test-cluster
+      - CLIENT_ID=read
+      - SUBJECT=data
+      - URL=nats://nats:4222
+      - SOURCE_TYPE=fs
+      - SOURCE_PATH=./asd.txt
+      - SOURCE_HWM=10
   write:
     image: node
     volumes:
@@ -22,3 +31,9 @@ services:
     entrypoint: yarn run run
     depends_on:
       - nats
+    environment:
+      - CLUSTER_ID=test-cluster
+      - CLIENT_ID=write
+      - SUBJECT=data
+      - URL=nats://nats:4222
+      - TARGET_PATH=./asd2.txt

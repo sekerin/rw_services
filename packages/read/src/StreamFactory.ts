@@ -1,11 +1,11 @@
 import fs from 'fs';
 import { Readable } from 'stream';
 
-type InStreamType = 'fs';
+export type InStreamType = 'fs';
 
 type InStreamFsOptions = {
   path: string;
-  highWaterMark: number;
+  highWaterMark?: number;
 };
 
 type InStreamOptions = InStreamFsOptions;

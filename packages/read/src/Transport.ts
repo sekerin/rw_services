@@ -25,9 +25,9 @@ export default class Transport {
     });
   }
 
-  async send(message: string): Promise<string> {
+  async send(subject: string, message: string): Promise<string> {
     return new Promise(((resolve, reject) => {
-      this.conn?.publish('lol', message, (err, guid) => {
+      this.conn?.publish(subject, message, (err, guid) => {
         if (err) {
           reject(err);
         } else {
